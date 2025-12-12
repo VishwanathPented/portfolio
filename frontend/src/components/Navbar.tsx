@@ -1,92 +1,76 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
-    const { user, logout } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
 
     const navLinks = [
-        { name: "Home", href: "/" },
-        { name: "About", href: "#about" },
-        { name: "Projects", href: "#projects" },
-        { name: "Contact", href: "#contact" },
+        { title: "Home", href: "/" },
+        { title: "About", href: "#about" },
+        { title: "Skills", href: "#skills" },
+        { title: "Experience", href: "#experience" },
+        { title: "Projects", href: "#projects" },
+        { title: "Contact", href: "#contact" },
     ];
 
     return (
-        <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16 items-center">
-                    <div className="flex-shrink-0">
-                        <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 text-transparent bg-clip-text">
-                            Portfolio
-                        </Link>
-                    </div>
+        <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+            <div className="container mx-auto px-6 py-4">
+                <div className="flex items-center justify-between">
+                    <Link
+                        href="/"
+                        className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                    >
+                        VP
+                    </Link>
 
-                    <div className="hidden md:flex space-x-8 items-center">
+                    {/* Desktop Menu */}
+                    <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
+                            <a
+                                key={link.title}
                                 href={link.href}
-                                className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium"
+                                className="text-gray-600 hover:text-primary font-medium transition-colors"
                             >
-                                {link.name}
-                            </Link>
+                                {link.title}
+                            </a>
                         ))}
-                        {user ? (
-                            <div className="flex items-center space-x-4">
-                                <Link href="/admin" className="text-sm font-medium text-purple-600 hover:text-purple-500">
-                                    Dashboard
-                                </Link>
-                                <button onClick={logout} className="text-sm font-medium text-red-600 hover:text-red-500">
-                                    Logout
-                                </button>
-                            </div>
-                        ) : null}
                     </div>
 
-                    <div className="md:hidden flex items-center">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none"
-                        >
-                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </button>
-                    </div>
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden text-gray-600 focus:outline-none"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
                 </div>
             </div>
 
+            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
+                        className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
                     >
-                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
                             {navLinks.map((link) => (
-                                <Link
-                                    key={link.name}
+                                <a
+                                    key={link.title}
                                     href={link.href}
+                                    className="text-gray-600 hover:text-primary font-medium py-2 transition-colors"
                                     onClick={() => setIsOpen(false)}
-                                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                                 >
-                                    {link.name}
-                                </Link>
+                                    {link.title}
+                                </a>
                             ))}
-                            {user && (
-                                <Link
-                                    href="/admin"
-                                    className="block px-3 py-2 rounded-md text-base font-medium text-purple-600 hover:bg-purple-50"
-                                >
-                                    Dashboard
-                                </Link>
-                            )}
                         </div>
                     </motion.div>
                 )}

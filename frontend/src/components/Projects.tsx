@@ -1,72 +1,80 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import DataService from "../services/data.service";
-import { Project } from "../types";
-import { Github, ExternalLink } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { portfolioData } from '../data/portfolio';
+import { Github, ExternalLink } from 'lucide-react';
 
 const Projects = () => {
-    const [projects, setProjects] = useState<Project[]>([]);
-
-    useEffect(() => {
-        DataService.getPublicProjects().then((res) => setProjects(res.data));
-    }, []);
+    const projects = portfolioData.projects;
 
     return (
-        <section id="projects" className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div className="container mx-auto px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
-                    <div className="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
-                </motion.div>
+        <section id="projects" className="py-20 bg-gray-50">
+            <div className="container mx-auto px-6">
+                <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Featured Projects</h2>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-100 dark:border-gray-700"
+                            className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group"
                         >
-                            <div className="relative h-48 overflow-hidden">
-                                <img
-                                    src={project.thumbnail || "https://dummyimage.com/600x400/cccccc/000000&text=Project"}
-                                    alt={project.title}
-                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                                    {project.githubUrl && (
-                                        <a href={project.githubUrl} target="_blank" rel="noreferrer" className="p-2 bg-white rounded-full hover:bg-gray-200 transition-colors">
-                                            <Github className="w-5 h-5 text-gray-900" />
-                                        </a>
-                                    )}
-                                    {project.liveUrl && (
-                                        <a href={project.liveUrl} target="_blank" rel="noreferrer" className="p-2 bg-white rounded-full hover:bg-gray-200 transition-colors">
-                                            <ExternalLink className="w-5 h-5 text-gray-900" />
-                                        </a>
-                                    )}
-                                </div>
+                            <div className="h-48 overflow-hidden bg-gray-200 relative">
+                                {project.thumbnail ? (
+                                    <img
+                                        src={project.thumbnail}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                ) : (
+                                    <div className="flex items-center justify-center h-full text-gray-400">
+                                        No Image
+                                    </div>
+                                )}
                             </div>
 
                             <div className="p-6">
-                                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">{project.title}</h3>
-                                <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 text-sm">
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
+                                <p className="text-gray-600 mb-4 line-clamp-3 text-sm">
                                     {project.description}
                                 </p>
-                                <div className="flex flex-wrap gap-2">
-                                    {project.technologies.split(",").map((tech, i) => (
-                                        <span key={i} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-xs rounded-full font-medium">
+
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    {project.technologies.split(',').map((tech, i) => (
+                                        <span
+                                            key={i}
+                                            className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
+                                        >
                                             {tech.trim()}
                                         </span>
                                     ))}
+                                </div>
+
+                                <div className="flex gap-4">
+                                    {project.githubUrl && (
+                                        <a
+                                            href={project.githubUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors text-sm font-medium"
+                                        >
+                                            <Github size={18} /> Code
+                                        </a>
+                                    )}
+                                    {project.liveUrl && (
+                                        <a
+                                            href={project.liveUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors text-sm font-medium"
+                                        >
+                                            <ExternalLink size={18} /> Demo
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

@@ -1,90 +1,92 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import DataService from "../services/data.service";
-import { Experience, Education } from "../types";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { portfolioData } from '../data/portfolio';
 
 const ExperienceSection = () => {
-    const [experiences, setExperiences] = useState<Experience[]>([]);
-    const [educations, setEducations] = useState<Education[]>([]);
     const [activeTab, setActiveTab] = useState<'experience' | 'education'>('experience');
 
-    useEffect(() => {
-        DataService.getPublicExperiences().then((res) => setExperiences(res.data));
-        DataService.getPublicEducations().then((res) => setEducations(res.data));
-    }, []);
+    // Use static data
+    const experiences = portfolioData.experience;
+    const education = portfolioData.education;
 
     return (
-        <section className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-            <div className="container mx-auto px-4 max-w-4xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-12"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Resume</h2>
-                    <div className="flex justify-center space-x-6 mb-8">
+        <section id="experience" className="py-20">
+            <div className="container mx-auto px-6 max-w-4xl">
+                <div className="flex justify-center mb-12">
+                    <div className="bg-gray-100 p-1 rounded-full inline-flex">
                         <button
                             onClick={() => setActiveTab('experience')}
-                            className={`text-lg font-medium pb-2 border-b-2 transition-colors ${activeTab === 'experience' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${activeTab === 'experience'
+                                    ? 'bg-white text-primary shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-900'
+                                }`}
                         >
                             Experience
                         </button>
                         <button
                             onClick={() => setActiveTab('education')}
-                            className={`text-lg font-medium pb-2 border-b-2 transition-colors ${activeTab === 'education' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${activeTab === 'education'
+                                    ? 'bg-white text-primary shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-900'
+                                }`}
                         >
                             Education
                         </button>
                     </div>
-                </motion.div>
+                </div>
 
-                <div className="space-y-8">
-                    {activeTab === 'experience' && experiences.map((exp, index) => (
-                        <motion.div
-                            key={exp.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row gap-6"
-                        >
-                            <div className="md:w-1/4">
-                                <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium mb-2">
-                                    {exp.duration}
-                                </span>
-                                <h4 className="font-bold text-gray-800 dark:text-white">{exp.company}</h4>
-                            </div>
-                            <div className="md:w-3/4">
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{exp.jobTitle}</h3>
-                                <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line">{exp.description}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-
-                    {activeTab === 'education' && educations.map((edu, index) => (
-                        <motion.div
-                            key={edu.id}
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row gap-6"
-                        >
-                            <div className="md:w-1/4">
-                                <span className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium mb-2">
-                                    {edu.timePeriod}
-                                </span>
-                                <h4 className="font-bold text-gray-800 dark:text-white">{edu.institutionName}</h4>
-                            </div>
-                            <div className="md:w-3/4">
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{edu.degree}</h3>
-                                <p className="text-gray-600 dark:text-gray-400">{edu.description}</p>
-                            </div>
-                        </motion.div>
-                    ))}
+                <div className="relative min-h-[400px]">
+                    <AnimatePresence mode="wait">
+                        {activeTab === 'experience' ? (
+                            <motion.div
+                                key="experience"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.3 }}
+                                className="space-y-8"
+                            >
+                                {experiences.map((exp) => (
+                                    <div key={exp.id} className="relative pl-8 border-l-2 border-gray-200">
+                                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></div>
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <h3 className="text-xl font-bold text-gray-900">{exp.jobTitle}</h3>
+                                            <span className="text-sm text-gray-500 font-mono bg-gray-50 px-2 py-1 rounded">{exp.duration}</span>
+                                        </div>
+                                        <p className="text-primary font-medium mb-3">{exp.company}</p>
+                                        <p className="text-gray-600 leading-relaxed text-sm">
+                                            {exp.description}
+                                        </p>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="education"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.3 }}
+                                className="space-y-8"
+                            >
+                                {education.map((edu) => (
+                                    <div key={edu.id} className="relative pl-8 border-l-2 border-gray-200">
+                                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></div>
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <h3 className="text-xl font-bold text-gray-900">{edu.institutionName}</h3>
+                                            <span className="text-sm text-gray-500 font-mono bg-gray-50 px-2 py-1 rounded">{edu.timePeriod}</span>
+                                        </div>
+                                        <p className="text-primary font-medium mb-3">{edu.degree}</p>
+                                        <p className="text-gray-600 leading-relaxed text-sm">
+                                            {edu.description}
+                                        </p>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </section>

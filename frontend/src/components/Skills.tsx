@@ -1,70 +1,48 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import DataService from "../services/data.service";
-import { Skill } from "../types";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { portfolioData } from '../data/portfolio';
 
 const Skills = () => {
-    const [skills, setSkills] = useState<Skill[]>([]);
-
-    useEffect(() => {
-        DataService.getPublicSkills().then((res) => setSkills(res.data));
-    }, []);
-
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const item = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
-    };
+    const skills = portfolioData.skills;
 
     return (
-        <section className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-            <div className="container mx-auto px-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Professional Skills</h2>
-                    <div className="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
-                </motion.div>
+        <section id="skills" className="py-20">
+            <div className="container mx-auto px-6">
+                <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Skills</h2>
 
-                <motion.div
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"
-                >
-                    {skills.map((skill) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    {skills.map((skill, index) => (
                         <motion.div
                             key={skill.id}
-                            variants={item}
-                            className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-xl transition-all text-center group"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            viewport={{ once: true }}
+                            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
                         >
-                            <div className="mb-4 text-4xl text-gray-400 group-hover:text-blue-500 transition-colors flex justify-center">
-                                {/* If using icon libraries/URLs differently, render here */}
-                                {skill.icon && <i className={skill.icon}></i> /* Simple icon wrapper */}
-                                {!skill.icon && <div className="w-12 h-12 bg-gray-200 rounded-full" />}
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-semibold text-lg text-gray-800">{skill.name}</h3>
+                                <span className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
+                                    {skill.category}
+                                </span>
                             </div>
-                            <h3 className="font-semibold text-gray-800 dark:text-gray-100">{skill.name}</h3>
-                            <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-600">
-                                <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: `${skill.proficiency}%` }}></div>
+
+                            <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                <motion.div
+                                    className="bg-primary h-2.5 rounded-full"
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: `${skill.proficiency}%` }}
+                                    transition={{ duration: 1, delay: 0.5 }}
+                                ></motion.div>
+                            </div>
+                            <div className="mt-2 text-right text-sm text-gray-500">
+                                {skill.proficiency}%
                             </div>
                         </motion.div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </section>
     );
