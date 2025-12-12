@@ -33,18 +33,18 @@ const Hero = () => {
                             transition={{ delay: 0.2 }}
                             className="inline-block py-1 px-3 rounded-full bg-slate-800/50 border border-slate-700 text-accent font-medium text-sm mb-6"
                         >
-                            Currently available for work
+                            Open to Opportunities
                         </motion.span>
 
                         <h1 className="text-5xl md:text-7xl font-bold font-display text-white mb-6 leading-tight">
-                            Building <br />
+                            Hi, I'm <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                                Digital Magic
+                                {profile.fullName}
                             </span>
                         </h1>
 
                         <p className="text-lg text-slate-400 max-w-lg mb-10 leading-relaxed">
-                            {profile.bio}
+                            {profile.tagline}. {profile.bio.split('.')[0]}.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4">
