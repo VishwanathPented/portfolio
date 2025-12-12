@@ -1,60 +1,81 @@
-import { Profile, Skill, Project, Experience, Education, Service, Testimonial, SocialLink } from '../types';
+import { Profile, Project, Skill, Experience, Education, Service, Testimonial } from "../types";
 
 export const portfolioData = {
     profile: {
+        id: 1,
         fullName: "Vishwanath Pented",
-        tagline: "Full Stack Developer | Java & Next.js Enthusiast",
-        title: "Software Engineer",
-        bio: "Passionate developer with expertise in building scalable web applications using modern technologies. I love solving complex problems and learning new skills.",
-        profileImage: "/profile.jpg", // Placeholder - user should replace or I can use a generic one
-        resumeUrl: "/Resumee.pdf",
-        email: "vishwanath@example.com",
+        tagline: "Building Digital Experiences",
+        title: "Full Stack Developer",
+        bio: "I craft robust and scalable applications with modern technologies. Passionate about solving complex problems and delivering user-centric solutions.",
+        profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&auto=format&fit=crop", // Professional headshot placeholder
+        resumeUrl: "#",
+        email: "vishwanath.pented@example.com",
         phone: "+91 98765 43210",
         address: "Hyderabad, India",
         socialLinks: [
-            { platform: "GitHub", url: "https://github.com/VishwanathPented", icon: "Github" },
-            { platform: "LinkedIn", url: "https://linkedin.com/in/vishwanathpented", icon: "Linkedin" } // Added example
+            { platform: "GitHub", url: "https://github.com", icon: "github" },
+            { platform: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
+            { platform: "Twitter", url: "https://twitter.com", icon: "twitter" }
         ]
     } as Profile,
 
     skills: [
-        { id: 1, name: "Java", category: "Backend", proficiency: 90, icon: "Coffee" },
-        { id: 2, name: "Spring Boot", category: "Backend", proficiency: 85, icon: "Server" },
-        { id: 3, name: "Next.js", category: "Frontend", proficiency: 80, icon: "Globe" },
-        { id: 4, name: "React", category: "Frontend", proficiency: 85, icon: "Code" },
-        { id: 5, name: "TypeScript", category: "Language", proficiency: 75, icon: "FileCode" },
-        { id: 6, name: "PostgreSQL", category: "Database", proficiency: 70, icon: "Database" },
+        { id: 1, name: "Java", category: "Backend", icon: "java", proficiency: 90 },
+        { id: 2, name: "Spring Boot", category: "Backend", icon: "spring", proficiency: 85 },
+        { id: 3, name: "React", category: "Frontend", icon: "react", proficiency: 80 },
+        { id: 4, name: "Next.js", category: "Frontend", icon: "nextjs", proficiency: 75 },
+        { id: 5, name: "TypeScript", category: "Language", icon: "typescript", proficiency: 70 },
+        { id: 6, name: "PostgreSQL", category: "Database", icon: "postgresql", proficiency: 75 },
+        { id: 7, name: "Docker", category: "DevOps", icon: "docker", proficiency: 60 },
+        { id: 8, name: "AWS", category: "Cloud", icon: "aws", proficiency: 50 },
     ] as Skill[],
 
     projects: [
         {
             id: 1,
-            title: "Personal Portfolio",
-            description: "A fully responsive portfolio website built with Next.js and Tailwind CSS. Originally planned with a Spring Boot backend, converted to a performant static site.",
-            thumbnail: "/project1.jpg", // Placeholder
-            technologies: "Next.js, TailwindCSS, TypeScript, Framer Motion",
-            liveUrl: "https://portfolio.example.com",
-            githubUrl: "https://github.com/VishwanathPented/portfolio"
+            title: "Hotel Inventory System",
+            description: "A comprehensive dashboard for managing hotel bar inventory, featuring real-time tracking, forecasting, and simulation tools.",
+            thumbnail: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=800&auto=format&fit=crop", // Dashboard UI placeholder
+            technologies: "Python, Streamlit, Pandas, Plotly",
+            liveUrl: "#",
+            githubUrl: "#"
         },
         {
             id: 2,
-            title: "E-commerce Platform",
-            description: "A full-featured e-commerce application with product listing, cart functionality, and payment gateway integration.",
-            thumbnail: "/project2.jpg", // Placeholder
-            technologies: "Java, Spring Boot, React, MySQL",
-            liveUrl: "",
-            githubUrl: "https://github.com/VishwanathPented/ecommerce"
+            title: "E-Commerce Platform",
+            description: "Full-featured e-commerce solution with cart management, payment integration, and admin dashboard.",
+            thumbnail: "https://images.unsplash.com/photo-1556740758-90de2929450a?q=80&w=800&auto=format&fit=crop", // E-commerce UI placeholder
+            technologies: "React, Node.js, MongoDB, Stripe",
+            liveUrl: "#",
+            githubUrl: "#"
+        },
+        {
+            id: 3,
+            title: "Task Management App",
+            description: "Productivity tool for teams to organize tasks, track progress, and collaborate in real-time.",
+            thumbnail: "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?q=80&w=800&auto=format&fit=crop", // Task app UI placeholder
+            technologies: "Next.js, Firebase, TailwindCSS",
+            liveUrl: "#",
+            githubUrl: "#"
         }
     ] as Project[],
 
     experience: [
         {
             id: 1,
-            jobTitle: "Software Engineer Intern",
+            jobTitle: "Senior Software Engineer",
             company: "Tech Solutions Inc.",
-            duration: "Jan 2024 - Present",
-            description: "Developed RESTful APIs using Spring Boot and optimized database queries. Collaborated with the frontend team to integrate APIs.",
-            companyLogo: "/company1.png"
+            duration: "2021 - Present",
+            description: "Leading the backend development team, architecting microservices, and mentoring junior developers.",
+            companyLogo: ""
+        },
+        {
+            id: 2,
+            jobTitle: "Full Stack Developer",
+            company: "Digital Innovations",
+            duration: "2019 - 2021",
+            description: "Developed and maintained multiple web applications using the MERN stack.",
+            companyLogo: ""
         }
     ] as Experience[],
 
@@ -62,27 +83,21 @@ export const portfolioData = {
         {
             id: 1,
             institutionName: "University of Technology",
-            degree: "Bachelor of Technology in Computer Science",
-            timePeriod: "2020 - 2024",
-            description: "Graduated with 8.5 CGPA. Active member of the Coding Club.",
-            institutionLogo: "/uni.png"
-        }
-    ] as Education[],
-
-    services: [
-        {
-            id: 1,
-            title: "Web Development",
-            description: "Building responsive and performant web applications using modern frameworks.",
-            icon: "Globe"
+            degree: "Master of Computer Science",
+            timePeriod: "2017 - 2019",
+            description: "Specialized in Software Engineering and Distributed Systems.",
+            institutionLogo: ""
         },
         {
             id: 2,
-            title: "Backend Development",
-            description: "Designing scalable server-side architecture and APIs.",
-            icon: "Server"
+            institutionName: "State College",
+            degree: "Bachelor of Science in IT",
+            timePeriod: "2013 - 2017",
+            description: "Graduated with honors. President of the Coding Club.",
+            institutionLogo: ""
         }
-    ] as Service[],
+    ] as Education[],
 
+    services: [] as Service[],
     testimonials: [] as Testimonial[]
 };

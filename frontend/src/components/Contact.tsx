@@ -20,109 +20,116 @@ const Contact = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Since there is no backend, we can just open a mailto link
         const mailtoLink = `mailto:${profile.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
         window.location.href = mailtoLink;
     };
 
     return (
-        <section id="contact" className="py-20 bg-gray-900 text-white">
+        <section id="contact" className="py-32 relative">
             <div className="container mx-auto px-6">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
-                        <p className="text-gray-400">Have a project in mind or just want to say hi?</p>
-                    </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-3xl md:text-5xl font-bold font-display text-white mb-6">Let's Work <br /> Together</h2>
+                        <p className="text-slate-400 text-lg mb-12">
+                            Have a project in mind or want to discuss modern tech? I'm always open to new opportunities and interesting conversations.
+                        </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        <div>
-                            <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
-                            <div className="space-y-6">
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-primary/10 p-3 rounded-lg text-primary">
-                                        <Mail size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-400 mb-1">Email</p>
-                                        <a href={`mailto:${profile.email}`} className="text-lg hover:text-primary transition-colors">
-                                            {profile.email}
-                                        </a>
-                                    </div>
+                        <div className="space-y-8">
+                            <div className="flex items-center gap-6 group">
+                                <div className="p-4 bg-slate-800 rounded-2xl group-hover:bg-primary/20 transition-colors text-primary">
+                                    <Mail size={24} />
                                 </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-primary/10 p-3 rounded-lg text-primary">
-                                        <Phone size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-400 mb-1">Phone</p>
-                                        <p className="text-lg">{profile.phone}</p>
-                                    </div>
+                                <div>
+                                    <p className="text-sm text-slate-500 mb-1">Email Me</p>
+                                    <a href={`mailto:${profile.email}`} className="text-xl font-medium text-white hover:text-primary transition-colors">
+                                        {profile.email}
+                                    </a>
                                 </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="bg-primary/10 p-3 rounded-lg text-primary">
-                                        <MapPin size={24} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-gray-400 mb-1">Location</p>
-                                        <p className="text-lg">{profile.address}</p>
-                                    </div>
+                            </div>
+                            <div className="flex items-center gap-6 group">
+                                <div className="p-4 bg-slate-800 rounded-2xl group-hover:bg-primary/20 transition-colors text-primary">
+                                    <Phone size={24} />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-slate-500 mb-1">Call Me</p>
+                                    <p className="text-xl font-medium text-white">{profile.phone}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-6 group">
+                                <div className="p-4 bg-slate-800 rounded-2xl group-hover:bg-primary/20 transition-colors text-primary">
+                                    <MapPin size={24} />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-slate-500 mb-1">Location</p>
+                                    <p className="text-xl font-medium text-white">{profile.address}</p>
                                 </div>
                             </div>
                         </div>
+                    </motion.div>
 
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="glass p-8 md:p-10 rounded-3xl border border-slate-700"
+                    >
+                        <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Name</label>
                                 <input
                                     type="text"
                                     name="name"
-                                    placeholder="Your Name"
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-primary text-white placeholder-gray-500"
+                                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-white transition-all"
                                 />
                             </div>
                             <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Email</label>
                                 <input
                                     type="email"
                                     name="email"
-                                    placeholder="Your Email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-primary text-white placeholder-gray-500"
+                                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-white transition-all"
                                 />
                             </div>
                             <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Subject</label>
                                 <input
                                     type="text"
                                     name="subject"
-                                    placeholder="Subject"
                                     value={formData.subject}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-primary text-white placeholder-gray-500"
+                                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-white transition-all"
                                 />
                             </div>
                             <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-2">Message</label>
                                 <textarea
                                     name="message"
-                                    placeholder="Your Message"
                                     value={formData.message}
                                     onChange={handleChange}
                                     required
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-primary text-white placeholder-gray-500 resize-none"
+                                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-white transition-all resize-none"
                                 ></textarea>
                             </div>
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                                className="w-full py-4 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg"
                             >
-                                Send Message <Send size={18} />
+                                Send Message <Send size={20} />
                             </button>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

@@ -3,17 +3,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { portfolioData } from '../data/portfolio';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const Projects = () => {
     const projects = portfolioData.projects;
 
     return (
-        <section id="projects" className="py-20 bg-gray-50">
+        <section id="projects" className="py-32 relative">
             <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Featured Projects</h2>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-16"
+                >
+                    <h2 className="text-3xl md:text-5xl font-bold font-display text-white mb-6">Selected Works</h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
@@ -21,48 +29,18 @@ const Projects = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group"
+                            className="group glass rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300"
                         >
-                            <div className="h-48 overflow-hidden bg-gray-200 relative">
-                                {project.thumbnail ? (
-                                    <img
-                                        src={project.thumbnail}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                ) : (
-                                    <div className="flex items-center justify-center h-full text-gray-400">
-                                        No Image
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
-                                <p className="text-gray-600 mb-4 line-clamp-3 text-sm">
-                                    {project.description}
-                                </p>
-
-                                <div className="flex flex-wrap gap-2 mb-6">
-                                    {project.technologies.split(',').map((tech, i) => (
-                                        <span
-                                            key={i}
-                                            className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
-                                        >
-                                            {tech.trim()}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                <div className="flex gap-4">
+                            <div className="h-60 overflow-hidden relative">
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center gap-4 backdrop-blur-sm">
                                     {project.githubUrl && (
                                         <a
                                             href={project.githubUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors text-sm font-medium"
+                                            className="p-3 bg-white rounded-full text-slate-900 hover:scale-110 transition-transform"
                                         >
-                                            <Github size={18} /> Code
+                                            <Github size={20} />
                                         </a>
                                     )}
                                     {project.liveUrl && (
@@ -70,11 +48,37 @@ const Projects = () => {
                                             href={project.liveUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors text-sm font-medium"
+                                            className="p-3 bg-white rounded-full text-slate-900 hover:scale-110 transition-transform"
                                         >
-                                            <ExternalLink size={18} /> Demo
+                                            <ExternalLink size={20} />
                                         </a>
                                     )}
+                                </div>
+                                <img
+                                    src={project.thumbnail}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                />
+                            </div>
+
+                            <div className="p-8">
+                                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors flex items-center gap-2">
+                                    {project.title}
+                                    <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity -translate-y-1 translate-x-1" />
+                                </h3>
+                                <p className="text-slate-400 mb-6 line-clamp-3 text-sm leading-relaxed">
+                                    {project.description}
+                                </p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {project.technologies.split(',').map((tech, i) => (
+                                        <span
+                                            key={i}
+                                            className="px-3 py-1 bg-slate-800/50 border border-slate-700 text-slate-300 text-xs font-medium rounded-full"
+                                        >
+                                            {tech.trim()}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </motion.div>

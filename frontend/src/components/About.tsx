@@ -8,56 +8,68 @@ const About = () => {
     const profile = portfolioData.profile;
 
     return (
-        <section id="about" className="py-20 bg-gray-50">
+        <section id="about" className="py-32 relative bg-slate-900/50">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="max-w-4xl mx-auto"
-                >
-                    <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">About Me</h2>
+                <div className="relative glass p-10 md:p-16 rounded-3xl border border-slate-800">
+                    <div className="flex flex-col md:flex-row gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="w-full md:w-1/3"
+                        >
+                            <h2 className="text-4xl font-bold font-display text-white mb-6">
+                                Defining <br />
+                                <span className="text-primary">Myself.</span>
+                            </h2>
+                            <div className="w-20 h-1 bg-primary rounded-full mb-8"></div>
 
-                    <div className="flex flex-col md:flex-row items-center gap-12">
-                        <div className="w-48 h-48 relative flex-shrink-0">
-                            <img
-                                src={profile.profileImage || "/placeholder-profile.png"}
-                                alt={profile.fullName}
-                                className="w-full h-full object-cover rounded-full shadow-lg"
-                            />
-                        </div>
+                            <div className="space-y-4">
+                                <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                                    <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Experience</p>
+                                    <p className="text-xl font-bold text-white">4+ Years</p>
+                                </div>
+                                <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                                    <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Projects</p>
+                                    <p className="text-xl font-bold text-white">50+ Completed</p>
+                                </div>
+                            </div>
+                        </motion.div>
 
-                        <div className="flex-1">
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-2">{profile.fullName}</h3>
-                            <p className="text-primary font-medium mb-4">{profile.tagline}</p>
-                            <p className="text-gray-600 leading-relaxed mb-6">
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="w-full md:w-2/3"
+                        >
+                            <p className="text-lg text-slate-300 leading-relaxed mb-8">
                                 {profile.bio}
                             </p>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <p className="text-gray-600"><span className="font-semibold text-gray-900">Email:</span> {profile.email}</p>
-                                    <p className="text-gray-600"><span className="font-semibold text-gray-900">Phone:</span> {profile.phone}</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-slate-400">
+                                <div className="space-y-4 border-l-2 border-slate-800 pl-6">
+                                    <div>
+                                        <p className="text-sm font-semibold text-white mb-1">Email</p>
+                                        <p>{profile.email}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-white mb-1">Phone</p>
+                                        <p>{profile.phone}</p>
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <p className="text-gray-600"><span className="font-semibold text-gray-900">Location:</span> {profile.address}</p>
+                                <div className="space-y-4 border-l-2 border-slate-800 pl-6">
+                                    <div>
+                                        <p className="text-sm font-semibold text-white mb-1">Location</p>
+                                        <p>{profile.address}</p>
+                                    </div>
+                                    <div>
+                                        <a href={profile.resumeUrl} className="text-accent hover:underline">Download Resume &rarr;</a>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div className="mt-8">
-                                <a
-                                    href={profile.resumeUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors"
-                                >
-                                    Download Resume
-                                </a>
-                            </div>
-                        </div>
+                        </motion.div>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

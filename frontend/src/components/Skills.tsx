@@ -7,38 +7,51 @@ import { portfolioData } from '../data/portfolio';
 const Skills = () => {
     const skills = portfolioData.skills;
 
+    // Group skills by category
+    const categories = Array.from(new Set(skills.map(s => s.category)));
+
     return (
-        <section id="skills" className="py-20">
+        <section id="skills" className="py-32 relative">
             <div className="container mx-auto px-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Skills</h2>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-20"
+                >
+                    <h2 className="text-3xl md:text-5xl font-bold font-display text-white mb-6">Technical Arsenal</h2>
+                    <p className="text-slate-400 max-w-2xl mx-auto">The tools and technologies I use to bring ideas to life.</p>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    {skills.map((skill, index) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {categories.map((category, idx) => (
                         <motion.div
-                            key={skill.id}
-                            initial={{ opacity: 0, y: 20 }}
+                            key={category}
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            transition={{ delay: idx * 0.1 }}
                             viewport={{ once: true }}
-                            className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                            className="glass p-8 rounded-2xl border border-slate-800"
                         >
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="font-semibold text-lg text-gray-800">{skill.name}</h3>
-                                <span className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
-                                    {skill.category}
-                                </span>
-                            </div>
-
-                            <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                <motion.div
-                                    className="bg-primary h-2.5 rounded-full"
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: `${skill.proficiency}%` }}
-                                    transition={{ duration: 1, delay: 0.5 }}
-                                ></motion.div>
-                            </div>
-                            <div className="mt-2 text-right text-sm text-gray-500">
-                                {skill.proficiency}%
+                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                {category}
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {skills.filter(s => s.category === category).map((skill) => (
+                                    <div
+                                        key={skill.id}
+                                        className="px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700 hover:border-primary/50 transition-colors flex items-center gap-2 group"
+                                    >
+                                        <span className="text-slate-300 text-sm font-medium group-hover:text-white">{skill.name}</span>
+                                        <div className="w-16 h-1 bg-slate-700 rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-primary"
+                                                style={{ width: `${skill.proficiency}%` }}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </motion.div>
                     ))}

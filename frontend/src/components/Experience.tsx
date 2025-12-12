@@ -3,86 +3,121 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData } from '../data/portfolio';
+import { Briefcase, GraduationCap, Calendar } from 'lucide-react';
 
 const ExperienceSection = () => {
     const [activeTab, setActiveTab] = useState<'experience' | 'education'>('experience');
-
-    // Use static data
     const experiences = portfolioData.experience;
     const education = portfolioData.education;
 
     return (
-        <section id="experience" className="py-20">
-            <div className="container mx-auto px-6 max-w-4xl">
-                <div className="flex justify-center mb-12">
-                    <div className="bg-gray-100 p-1 rounded-full inline-flex">
+        <section id="experience" className="py-32 relative bg-slate-900/30">
+            <div className="container mx-auto px-6 max-w-5xl">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-5xl font-bold font-display text-white mb-8">My Journey</h2>
+
+                    <div className="inline-flex p-1 bg-slate-800 rounded-full border border-slate-700">
                         <button
                             onClick={() => setActiveTab('experience')}
-                            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${activeTab === 'experience'
-                                    ? 'bg-white text-primary shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-900'
+                            className={`px-8 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${activeTab === 'experience'
+                                    ? 'bg-primary text-white shadow-lg'
+                                    : 'text-slate-400 hover:text-white'
                                 }`}
                         >
-                            Experience
+                            <Briefcase size={16} /> Experience
                         </button>
                         <button
                             onClick={() => setActiveTab('education')}
-                            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${activeTab === 'education'
-                                    ? 'bg-white text-primary shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-900'
+                            className={`px-8 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${activeTab === 'education'
+                                    ? 'bg-primary text-white shadow-lg'
+                                    : 'text-slate-400 hover:text-white'
                                 }`}
                         >
-                            Education
+                            <GraduationCap size={16} /> Education
                         </button>
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="relative min-h-[400px]">
+                <div className="relative">
+                    {/* Vertical Line */}
+                    <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-slate-800 md:-translate-x-1/2"></div>
+
                     <AnimatePresence mode="wait">
                         {activeTab === 'experience' ? (
                             <motion.div
                                 key="experience"
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                transition={{ duration: 0.3 }}
-                                className="space-y-8"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="space-y-12"
                             >
-                                {experiences.map((exp) => (
-                                    <div key={exp.id} className="relative pl-8 border-l-2 border-gray-200">
-                                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></div>
-                                        <div className="mb-1 flex items-center justify-between">
-                                            <h3 className="text-xl font-bold text-gray-900">{exp.jobTitle}</h3>
-                                            <span className="text-sm text-gray-500 font-mono bg-gray-50 px-2 py-1 rounded">{exp.duration}</span>
+                                {experiences.map((exp, index) => (
+                                    <motion.div
+                                        key={exp.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        viewport={{ once: true }}
+                                        className={`flex flex-col md:flex-row gap-8 relative items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                                    >
+                                        <div className="w-full md:w-1/2"></div>
+
+                                        {/* Dot */}
+                                        <div className="absolute left-[11px] md:left-1/2 top-0 w-5 h-5 rounded-full bg-slate-900 border-4 border-primary z-10 md:-translate-x-1/2"></div>
+
+                                        <div className="w-full md:w-1/2 pl-12 md:pl-0">
+                                            <div className={`glass p-8 rounded-2xl border border-slate-800 hover:border-primary/30 transition-colors ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
+                                                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-3">
+                                                    <Calendar size={12} /> {exp.duration}
+                                                </span>
+                                                <h3 className="text-xl font-bold text-white mb-1">{exp.jobTitle}</h3>
+                                                <p className="text-secondary-foreground text-sm font-medium mb-4 text-accent">{exp.company}</p>
+                                                <p className="text-slate-400 text-sm leading-relaxed">
+                                                    {exp.description}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p className="text-primary font-medium mb-3">{exp.company}</p>
-                                        <p className="text-gray-600 leading-relaxed text-sm">
-                                            {exp.description}
-                                        </p>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </motion.div>
                         ) : (
                             <motion.div
                                 key="education"
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                transition={{ duration: 0.3 }}
-                                className="space-y-8"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="space-y-12"
                             >
-                                {education.map((edu) => (
-                                    <div key={edu.id} className="relative pl-8 border-l-2 border-gray-200">
-                                        <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></div>
-                                        <div className="mb-1 flex items-center justify-between">
-                                            <h3 className="text-xl font-bold text-gray-900">{edu.institutionName}</h3>
-                                            <span className="text-sm text-gray-500 font-mono bg-gray-50 px-2 py-1 rounded">{edu.timePeriod}</span>
+                                {education.map((edu, index) => (
+                                    <motion.div
+                                        key={edu.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        viewport={{ once: true }}
+                                        className={`flex flex-col md:flex-row gap-8 relative items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                                    >
+                                        <div className="w-full md:w-1/2"></div>
+                                        <div className="absolute left-[11px] md:left-1/2 top-0 w-5 h-5 rounded-full bg-slate-900 border-4 border-accent z-10 md:-translate-x-1/2"></div>
+
+                                        <div className="w-full md:w-1/2 pl-12 md:pl-0">
+                                            <div className={`glass p-8 rounded-2xl border border-slate-800 hover:border-accent/30 transition-colors ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
+                                                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold mb-3">
+                                                    <Calendar size={12} /> {edu.timePeriod}
+                                                </span>
+                                                <h3 className="text-xl font-bold text-white mb-1">{edu.institutionName}</h3>
+                                                <p className="text-secondary-foreground text-sm font-medium mb-4 text-sky-300">{edu.degree}</p>
+                                                <p className="text-slate-400 text-sm leading-relaxed">
+                                                    {edu.description}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p className="text-primary font-medium mb-3">{edu.degree}</p>
-                                        <p className="text-gray-600 leading-relaxed text-sm">
-                                            {edu.description}
-                                        </p>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </motion.div>
                         )}

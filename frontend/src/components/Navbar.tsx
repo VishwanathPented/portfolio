@@ -1,12 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const navLinks = [
         { title: "Home", href: "/" },
@@ -18,14 +27,19 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
-            <div className="container mx-auto px-6 py-4">
+        <nav
+            className={`fixed w-full z-50 transition-all duration-300 ${scrolled
+                    ? "bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 py-4"
+                    : "bg-transparent py-6"
+                }`}
+        >
+            <div className="container mx-auto px-6">
                 <div className="flex items-center justify-between">
                     <Link
                         href="/"
-                        className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                        className="text-2xl font-bold font-display bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                     >
-                        VP
+                        VP.
                     </Link>
 
                     {/* Desktop Menu */}
@@ -34,16 +48,22 @@ const Navbar = () => {
                             <a
                                 key={link.title}
                                 href={link.href}
-                                className="text-gray-600 hover:text-primary font-medium transition-colors"
+                                className="text-slate-300 hover:text-white font-medium transition-colors text-sm tracking-wide"
                             >
                                 {link.title}
                             </a>
                         ))}
+                        <a
+                            href="#contact"
+                            className="px-5 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white transition-all duration-300 text-sm font-medium"
+                        >
+                            Hire Me
+                        </a>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-gray-600 focus:outline-none"
+                        className="md:hidden text-white focus:outline-none"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -58,14 +78,14 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-white border-b border-gray-100 overflow-hidden"
+                        className="md:hidden bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/50 overflow-hidden"
                     >
-                        <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
+                        <div className="container mx-auto px-6 py-8 flex flex-col space-y-6">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.title}
                                     href={link.href}
-                                    className="text-gray-600 hover:text-primary font-medium py-2 transition-colors"
+                                    className="text-slate-300 hover:text-primary font-medium text-lg transition-colors"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {link.title}
