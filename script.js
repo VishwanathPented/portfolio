@@ -44,3 +44,40 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 console.log("Portfolio loaded successfully.");
+
+// Scroll to Top Button
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.addEventListener("scroll", function () {
+    if (window.scrollY > 300) {
+        scrollTopBtn.classList.add("visible");
+    } else {
+        scrollTopBtn.classList.remove("visible");
+    }
+});
+
+scrollTopBtn.addEventListener("click", function () {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+
+// Intersection Observer for Animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target); // Connect only once
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll(".fade-in-up").forEach(element => {
+    observer.observe(element);
+});
