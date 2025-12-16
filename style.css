@@ -59,6 +59,20 @@ a {
     text-align: justify;
 }
 
+/* Override Bootstrap Text Colors for Dark Mode */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+.text-dark {
+    /* Keep black text for badges with light background */
+    color: #212529 !important;
+}
+
 /* Glassmorphism Cards */
 .glass-card {
     background: var(--bg-card);
