@@ -12,14 +12,3 @@ About, Skills, Projects, and Contact sections
 
 Easy to customize
 
-Tech Used
-
-HTML
-
-CSS
-
-JavaScript
-..
-
-
-..
